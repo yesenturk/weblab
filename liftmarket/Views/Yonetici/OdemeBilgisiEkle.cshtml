@@ -1,0 +1,80 @@
+﻿@using liftmarket.Models
+@model liftmarket.Models.Siparisler
+
+@{
+    ViewBag.Title = "Ödeme Bilgisi Ekle";
+}
+
+<h4>Ödeme Bilgisi Ekle</h4>
+<style>
+    .mgleft {
+        margin-left: 1px;
+    }
+
+    .mgRight {
+        margin-right: 20px;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <p class="control-label col-md-2 mgRight">Ödeme Yapıldı mı? </p>
+            <div class="col-md-5">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.OdendiMi)
+                    @Html.ValidationMessageFor(model => model.OdendiMi, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <p class="control-label col-md-2">Country :</p>
+            <div class="col-md-5">
+                <div class="dropdown">
+                    @Html.DropDownListFor(m => m.OdemeYontemleriId, (SelectList)ViewBag.odemeYontemleri, "Lütfen Seçiniz", new { @class = "dropdown form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Ekle" id="btnEkle" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+@*<script type="text/javascript">
+    $(function () {
+        $('#btnEkle').click(function (e) {
+            var e = document.getElementById("odemeYontemleri");
+            var val = e.value;
+            $.ajax({
+                type: "POST",
+                url: "/Yonetici/OdemeBilgisiEkle",
+                data: { "val": val }
+            }).done(function (data) {
+                if (data.result) {
+                    location.reload(true);
+                } else {
+                    location.reload(true);
+                }
+            }).fail(function () {
+                alert("Server Error!!!")
+            })
+        });
+    });
+</script>*@
